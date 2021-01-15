@@ -223,15 +223,27 @@ const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'navy', 'violet'];
     nextTable.querySelectorAll('tr').forEach((col,i)=>{
         Array.from(col.children).forEach((ver,j)=>{
             if(nextBlock.shape[0][i] && nextBlock.shape[0][i][j] > 0){
-                nextTable.querySelectorAll('tr')[i].children[j].className=colors[nextBlock.numCode -1];
+                nextTable.querySelectorAll('tr')[i].children[j].className = colors[nextBlock.numCode -1];
                 
             }else{
-                nextTable.querySelectorAll('tr')[i].children[j].className='white'
+                nextTable.querySelectorAll('tr')[i].children[j].className = 'white'
             }
         })
     })
   }
   
+  function draw() {
+      console.log(tetrisData);
+      tetrisData.forEach((col,i)=>{
+        col.forEach((ver,j)=>{
+            if(ver > 0){
+                tetris.querySelectorAll('tr')[i].children[j].className = tetrisData[i][j] >= 10 ? colors[ver/10 -1] : colors[ver -1];
+            }else{
+                tetris.querySelectorAll('tr')[i].children[j].className = 'white'
+            }
+        })
+      })
+  }
   function generate() {
     if(!currentBlock){
         currentBlock = blocks[Math.floor(Math.random() * blocks.length)];
@@ -257,9 +269,13 @@ const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'navy', 'violet'];
        // draw();
         alert('game over');
       } else {
-        //draw();
+        draw();
       }
   }
 
+  function tick(){
+      
+  }
+  //let int = setInterval(tick, 2000);
   init();
   generate();
