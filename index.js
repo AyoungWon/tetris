@@ -197,8 +197,11 @@ const blocks = [
 let tetrisData = [];
 let currentBlock;
 let nextBlock;
+var currentTopLeft = [0, 3];
 
 const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'navy', 'violet'];
+const isActiveBlock = value => (value > 0 && value < 10);
+const isInvalidBlock = value => (value === undefined || value >= 10);
 
 
   function init(){
@@ -274,8 +277,45 @@ const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'navy', 'violet'];
   }
 
   function tick(){
-      
+    const nextTopLeft = [currentTopLeft[0] + 1, currentTopLeft[1]];
+    const activeBlocks = [];
+    let canGoDown = true;
+    let currentBlockShape = currentBlock.shape[currentBlock.currentShapeIndex];
+    for(i = currentTopLeft[0]; i < currentTopLeft[0] + currentBlockShape.length; i++){
+        if (i < 0 || i >= 20) continue;
+        for (let j = currentTopLeft[1]; j < currentTopLeft[1] + currentBlockShape.length; j++) {
+            if(isActiveBlock(tetrisData[i][j])){
+                activeBlocks.push([i, j]);
+                if(isInvalidBlock(tetrisData[i+1][j])){
+                    console.log("밑에 블럭이 있음")
+                    canGoDown = false
+                }
+            }
+        }
+    }
+    if(!canGoDown){
+        activeBlocks.forEach((block)=>{
+            tetrisData[block[0]][block[1]] *= 10;
+        })
+        //checkRows();
+        generate();
+        return false;
+    }else if(canGoDown){
+        for(i = tetrisData.length -1; i >=0; i-- ){
+            col = tetrisData[i];
+            col.forEach((row, j)=>{
+                if(row < 10 && tetrisData[i + 1] && tetrisData[i + 1][j] < 10){
+                    tetrisData[i + 1][j] = row;
+                    tetrisData[i][j] = 0;
+                }
+            })
+        }
+        currentTopLeft = nextTopLeft;
+    draw();
+    return true;
+    }
+
   }
-  //let int = setInterval(tick, 2000);
+  let int = setInterval(tick, 2000);
   init();
   generate();
