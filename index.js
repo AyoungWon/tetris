@@ -236,7 +236,6 @@ const isInvalidBlock = value => (value === undefined || value >= 10);
   }
   
   function draw() {
-      console.log(tetrisData);
       tetrisData.forEach((col,i)=>{
         col.forEach((ver,j)=>{
             if(ver > 0){
@@ -260,7 +259,7 @@ const isInvalidBlock = value => (value === undefined || value >= 10);
     currentTopLeft = [-1, 3];
     let isGameOver = false;
     currentBlock.shape[0].slice(1).forEach((col,i)=>{
-        console.log(currentBlock.shape[0], currentBlock.shape[0].slice(1), col);
+        //console.log(currentBlock.shape[0], currentBlock.shape[0].slice(1), col);
         col.forEach((ver,j)=>{
             if(ver){
                 tetrisData[i][j + 3] = currentBlock.numCode;
@@ -286,7 +285,7 @@ const isInvalidBlock = value => (value === undefined || value >= 10);
         for (let j = currentTopLeft[1]; j < currentTopLeft[1] + currentBlockShape.length; j++) {
             if(isActiveBlock(tetrisData[i][j])){
                 activeBlocks.push([i, j]);
-                if(isInvalidBlock(tetrisData[i+1][j])){
+                if (isInvalidBlock(tetrisData[i + 1] && tetrisData[i + 1][j])) {
                     console.log("밑에 블럭이 있음")
                     canGoDown = false
                 }
@@ -316,6 +315,50 @@ const isInvalidBlock = value => (value === undefined || value >= 10);
     }
 
   }
-  let int = setInterval(tick, 2000);
+  let int = setInterval(tick, 200);
   init();
   generate();
+
+  window.addEventListener('keydown',(e)=>{
+      console.log(e);
+    switch(e.code){
+        case 'ArrowLeft': {
+            console.log("left")
+            const nextTopLeft = [currentTopLeft[0], currentTopLeft[1]-1 ];
+            let isMovableLeft = true;
+            let currentBlockShape = currentBlock.shape[currentBlock.currentShapeIndex];
+            for(i = currentTopLeft[0]; i < currentTopLeft[0] + currentBlockShape.length; i++){
+                if (!isMovableLeft) break;
+                for(j = currentTopLeft[1]; j < currentTopLeft[1] + currentBlockShape.length; j++){
+                    if (!tetrisData[i] || !tetrisData[i][j]) continue;
+                    if(isActiveBlock(tetrisData[i][j]) && isInvalidBlock(tetrisData[i] && tetrisData[i][j - 1])){
+                            console.log("옆에 블록있음")
+                            isMovableLeft = false
+                    }
+                }    
+            }
+            if(isMovableLeft){
+                tetrisData.forEach((col, i) => {
+                    for (var j = 0; j < col.length; j++) {
+                      const row = col[j];
+                      if (tetrisData[i][j - 1] === 0 && row < 10) {
+                        tetrisData[i][j - 1] = row;
+                        tetrisData[i][j] = 0;
+                      }
+                    }
+                  });
+                currentTopLeft = nextTopLeft;
+                draw();
+            }
+            break;
+        }
+        case 'ArrowRight' :{
+
+            break;
+        }
+        case 'ArrowDown' :{
+            tick();
+            break;
+        }
+    }
+  })
