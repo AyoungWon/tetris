@@ -258,6 +258,13 @@ const isInvalidBlock = value => (value === undefined || value >= 10);
     drawNext();
     currentTopLeft = [-1, 3];
     let isGameOver = false;
+    currentBlock.shape[0].slice(1).forEach((col, i) => { // 게임 오버 판단
+        col.forEach((ver, j) => {
+          if (ver && tetrisData[i][j + 3]) {
+            isGameOver = true;
+          }
+        });
+      });
     currentBlock.shape[0].slice(1).forEach((col,i)=>{
         //console.log(currentBlock.shape[0], currentBlock.shape[0].slice(1), col);
         col.forEach((ver,j)=>{
@@ -268,7 +275,7 @@ const isInvalidBlock = value => (value === undefined || value >= 10);
     })
     if (isGameOver) {
         clearInterval(int);
-       // draw();
+        draw();
         alert('game over');
       } else {
         draw();
@@ -323,7 +330,6 @@ const isInvalidBlock = value => (value === undefined || value >= 10);
       console.log(e);
     switch(e.code){
         case 'ArrowLeft': {
-            console.log("left")
             const nextTopLeft = [currentTopLeft[0], currentTopLeft[1]-1 ];
             let isMovableLeft = true;
             let currentBlockShape = currentBlock.shape[currentBlock.currentShapeIndex];
@@ -353,7 +359,32 @@ const isInvalidBlock = value => (value === undefined || value >= 10);
             break;
         }
         case 'ArrowRight' :{
-
+            const nextTopLeft = [currentTopLeft[0], currentTopLeft[1]+1 ];
+            let isMovableRight = true;
+            let currentBlockShape = currentBlock.shape[currentBlock.currentShapeIndex];
+            for(i = currentTopLeft[0]; i < currentTopLeft[0] + currentBlockShape.length; i++){
+                if (!isMovableRight) break;
+                for(j = currentTopLeft[1]; j < currentTopLeft[1] + currentBlockShape.length; j++){
+                    if (!tetrisData[i] || !tetrisData[i][j]) continue;
+                    if(isActiveBlock(tetrisData[i][j]) && isInvalidBlock(tetrisData[i] && tetrisData[i][j + 1])){
+                            console.log("옆에 블록있음")
+                            isMovableRight = false
+                    }
+                }    
+            }
+            if(isMovableRight){
+                tetrisData.forEach((col, i) => {
+                    for (var j = col.length - 1; j >= 0; j--) {
+                      const row = col[j];
+                      if (tetrisData[i][j + 1] === 0 && row < 10) {
+                        tetrisData[i][j + 1] = row;
+                        tetrisData[i][j] = 0;
+                      }
+                    }
+                  });
+                currentTopLeft = nextTopLeft;
+                draw();
+            }
             break;
         }
         case 'ArrowDown' :{
@@ -362,3 +393,50 @@ const isInvalidBlock = value => (value === undefined || value >= 10);
         }
     }
   })
+
+  window.addEventListener('keyup', (e) => {
+    switch (e.code) {
+      case 'ArrowUp': { 
+        let currentBlockShape = currentBlock.shape[currentBlock.currentShapeIndex];
+        let isChangeable = true;
+        const nextShapeIndex = currentBlock.currentShapeIndex + 1 === currentBlock.shape.length
+          ? 0
+          : currentBlock.currentShapeIndex + 1;
+        const nextBlockShape = currentBlock.shape[nextShapeIndex];
+        for (let i = currentTopLeft[0]; i < currentTopLeft[0] + currentBlockShape.length; i++) {
+          if (!isChangeable) break;
+          for (let j = currentTopLeft[1]; j < currentTopLeft[1] + currentBlockShape.length; j++) {
+            if (!tetrisData[i]) continue;
+            if (nextBlockShape[i - currentTopLeft[0]][j - currentTopLeft[1]] > 0 && isInvalidBlock(tetrisData[i] && tetrisData[i][j])) {
+              console.log(i, j);
+              isChangeable = false;
+            }
+          }
+        }
+        if (isChangeable) {
+          while (currentTopLeft[0] < 0) {
+            tick();
+          }
+          for (let i = currentTopLeft[0]; i < currentTopLeft[0] + currentBlockShape.length; i++) { // 돌린 이후 공간 체크
+            for (let j = currentTopLeft[1]; j < currentTopLeft[1] + currentBlockShape.length; j++) {
+              if (!tetrisData[i]) continue;
+              let nextBlockShapeCell = nextBlockShape[i - currentTopLeft[0]][j - currentTopLeft[1]];
+              if (nextBlockShapeCell > 0 && tetrisData[i][j] === 0) {
+                // 다음 모양은 있는데 현재 칸이 없으면
+                tetrisData[i][j] = currentBlock.numCode;
+              } else if (nextBlockShapeCell === 0 && tetrisData[i][j] && tetrisData[i][j] < 10) {
+                // 다음 모양은 없는데  현재 칸이 있으면
+                tetrisData[i][j] = 0;
+              }
+            }
+          }
+          currentBlock.currentShapeIndex = nextShapeIndex;
+        }
+        draw();
+        break;
+      }
+      case 'Space': // 한방에 쭉 떨구기
+        while (tick()) {}
+        break;
+    }
+  });
