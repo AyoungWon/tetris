@@ -282,6 +282,30 @@ const isInvalidBlock = value => (value === undefined || value >= 10);
       }
   }
 
+  function checkRows() { // 한 줄 다 찼는지 검사
+    const fullRows = [];
+    tetrisData.forEach((col, i) => {
+      let count = 0;
+      col.forEach((row, j) => {
+        if (row > 0) {
+          count++;
+        }
+      });
+      if (count === 10) {
+        fullRows.push(i);
+      }
+    });
+    const fullRowsCount = fullRows.length;
+    tetrisData = tetrisData.filter((row, i) => !fullRows.includes(i));
+    for (let i = 0; i < fullRowsCount; i++) {
+      tetrisData.unshift([0,0,0,0,0,0,0,0,0,0]);
+    }
+    console.log(fullRows, JSON.parse(JSON.stringify(tetrisData)));
+    let score = parseInt(document.getElementById('score').textContent, 10);
+    score += fullRowsCount ** 2;
+    document.getElementById('score').textContent = String(score);
+  }
+
   function tick(){
     const nextTopLeft = [currentTopLeft[0] + 1, currentTopLeft[1]];
     const activeBlocks = [];
@@ -303,7 +327,7 @@ const isInvalidBlock = value => (value === undefined || value >= 10);
         activeBlocks.forEach((block)=>{
             tetrisData[block[0]][block[1]] *= 10;
         })
-        //checkRows();
+        checkRows();
         generate();
         return false;
     }else if(canGoDown){
