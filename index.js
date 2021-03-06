@@ -1,5 +1,10 @@
 const tetris = document.querySelector('#tetris');
+const modalBtn = document.querySelector('#modal-btn')
+const modalWrap = document.querySelector('.modal-wrap')
+const currentScore = document.querySelector('#score')
+let gameStart = false
 let pressedKey
+let isGameOver 
 const blocks = [
     {
       name: 's', // 네모
@@ -206,19 +211,24 @@ const isInvalidBlock = value => (value === undefined || value >= 10);
 
 
   function init(){
-    const fragment = document.createDocumentFragment();
-    [...Array(20).keys()].forEach((col,i)=>{
-        const tr = document.createElement('tr');
-        fragment.appendChild(tr);
-        [...Array(10).keys()].forEach((ver,j) => {
-            const td = document.createElement('td');
-            tr.appendChild(td)
-        })
-        const vertical = Array(10).fill(0);
-        tetrisData.push(vertical);
+    isGameOver = false
+    tetrisData = []
+    currentScore.textContent = 0
+      const fragment = document.createDocumentFragment();
+      [...Array(20).keys()].forEach((col,i)=>{
+          const tr = document.createElement('tr');
+          fragment.appendChild(tr);
+          [...Array(10).keys()].forEach((ver,j) => {
+              const td = document.createElement('td');
+              tr.appendChild(td)
+          })
+          const vertical = Array(10).fill(0);
+          tetrisData.push(vertical);
+  
+      })
+      tetris.appendChild(fragment);
+    
 
-    })
-    tetris.appendChild(fragment);
   }
 
   function drawNext() {
@@ -258,7 +268,7 @@ const isInvalidBlock = value => (value === undefined || value >= 10);
     nextBlock = blocks[Math.floor(Math.random() * blocks.length)];
     drawNext();
     currentTopLeft = [-1, 3];
-    let isGameOver = false;
+    isGameOver = false;
     currentBlock.shape[0].slice(1).forEach((col, i) => { // 게임 오버 판단
         col.forEach((ver, j) => {
           if (ver && tetrisData[i][j + 3]) {
@@ -277,7 +287,16 @@ const isInvalidBlock = value => (value === undefined || value >= 10);
     if (isGameOver) {
         clearInterval(int);
         draw();
-        alert('game over');
+        modalWrap.classList.remove('gameStart')
+        console.log(modalWrap)
+        const scoreWrap = document.querySelector('#score-wrap')
+        const finalScore = document.querySelector('#finalScore')
+        const title = document.querySelector('.title')
+        tetris.innerHTML=''
+        scoreWrap.style.display='block'
+        finalScore.textContent=`${currentScore.textContent}`
+        title.textContent='GAME OVER'
+        gameStart = false
       } else {
         draw();
       }
@@ -302,9 +321,9 @@ const isInvalidBlock = value => (value === undefined || value >= 10);
       tetrisData.unshift([0,0,0,0,0,0,0,0,0,0]);
     }
     //console.log(fullRows, JSON.parse(JSON.stringify(tetrisData)));
-    let score = parseInt(document.getElementById('score').textContent, 10);
+    let score = parseInt(currentScore.textContent, 10);
     score += fullRowsCount ** 2;
-    document.getElementById('score').textContent = String(score);
+    currentScore.textContent = String(score);
   }
 
   function tick(){
@@ -347,12 +366,14 @@ const isInvalidBlock = value => (value === undefined || value >= 10);
     }
 
   }
-  let int = setInterval(tick, 200);
-  init();
-  generate();
+  let int 
+ // init();
+
+ 
 
   window.addEventListener('keydown',(e)=>{
-  pressedKey = document.getElementById(`${e.keyCode}`)
+    if(!isGameOver){
+      pressedKey = document.getElementById(`${e.keyCode}`)
   pressedKey.classList.add('pressed')
     switch(e.code){
         case 'ArrowLeft': {
@@ -418,10 +439,13 @@ const isInvalidBlock = value => (value === undefined || value >= 10);
             break;
         }
     }
+    }
+  
   })
 
   window.addEventListener('keyup', (e) => {
-   if(pressedKey) pressedKey.classList.remove('pressed')
+  if(!isGameOver){
+if(pressedKey) pressedKey.classList.remove('pressed')
     switch (e.code) {
       case 'ArrowUp': { 
         let currentBlockShape = currentBlock.shape[currentBlock.currentShapeIndex];
@@ -466,4 +490,17 @@ const isInvalidBlock = value => (value === undefined || value >= 10);
         while (tick()) {}
         break;
     }
+  }
+   
   });
+
+  modalBtn.addEventListener('click', ()=>{
+    gameStart = true
+    if(gameStart){
+      console.log(modalWrap)
+      modalWrap.classList.add('gameStart')
+      int = setInterval(tick, 500);
+      init();
+      generate();
+    }
+  })
