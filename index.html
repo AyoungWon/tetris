@@ -5,28 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tetris</title>
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+
 </head>
 <body>
-    <table id="tetris">
-    </table>
-    <table id="next-table">
-        <tr>
-            <td></td><td></td><td></td><td></td>
-        </tr>
-        <tr>
-            <td></td><td></td><td></td><td></td>
-        </tr>
-        <tr>
-            <td></td><td></td><td></td><td></td>
-        </tr>
-        <tr>
-            <td></td><td></td><td></td><td></td>
-        </tr>
-    </table>
-    <button id="stop">중단</button>
-    <button id="start">재개</button>
-    <button id="mute">소리끔</button>
-    <div>점수: <span id="score">0</span></div>
+    <div class="tetris-wrap">
+        <table id="tetris">
+        </table>
+        <div class="side-wrap">
+            <table id="next-table">
+                <tr>
+                    <td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td></td><td></td><td></td><td></td>
+                </tr>
+            </table>
+            <div class="btns-wrap">
+                <button id="stop">중단</button>
+                <button id="start">재개</button>
+                <div>점수: <span id="score">0</span></div>
+            </div>
+            
+        </div>
+        
+        </div>
+        <div class="keyboard-wrap">
+            <button class="space key" id="32"><i class="fas fa-angle-double-down"></i> Space bar</button>
+            <div class="arrow-btns">
+                <div class="top-btns">
+                    <button class="key" id="38"><i class="fas fa-long-arrow-alt-up"></i></button>
+                </div>
+                <div class="bottom-btns">
+                    <button class="key" id="37"><i class="fas fa-long-arrow-alt-left"></i></button>
+                    <button class="key" id="40"><i class="fas fa-long-arrow-alt-down"></i></button>
+                    <button class="key" id="39"><i class="fas fa-long-arrow-alt-right"></i></button>
+                </div>
+            </div>
+    </div>
+    
+
+
+    
     <!-- <audio id="bgm" src="./Tetris_theme.ogg.mp3" autoplay></audio> -->
     <script src="index.js"></script>
 </body>

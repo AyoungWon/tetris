@@ -1,4 +1,5 @@
 const tetris = document.querySelector('#tetris');
+let pressedKey
 const blocks = [
     {
       name: 's', // 네모
@@ -222,7 +223,7 @@ const isInvalidBlock = value => (value === undefined || value >= 10);
 
   function drawNext() {
     const nextTable = document.querySelector('#next-table');
-    console.log(nextBlock);
+    //console.log(nextBlock);
     nextTable.querySelectorAll('tr').forEach((col,i)=>{
         Array.from(col.children).forEach((ver,j)=>{
             if(nextBlock.shape[0][i] && nextBlock.shape[0][i][j] > 0){
@@ -249,7 +250,7 @@ const isInvalidBlock = value => (value === undefined || value >= 10);
   function generate() {
     if(!currentBlock){
         currentBlock = blocks[Math.floor(Math.random() * blocks.length)];
-        console.log(currentBlock);
+        //console.log(currentBlock);
     }else{
         currentBlock = nextBlock;
     }
@@ -300,7 +301,7 @@ const isInvalidBlock = value => (value === undefined || value >= 10);
     for (let i = 0; i < fullRowsCount; i++) {
       tetrisData.unshift([0,0,0,0,0,0,0,0,0,0]);
     }
-    console.log(fullRows, JSON.parse(JSON.stringify(tetrisData)));
+    //console.log(fullRows, JSON.parse(JSON.stringify(tetrisData)));
     let score = parseInt(document.getElementById('score').textContent, 10);
     score += fullRowsCount ** 2;
     document.getElementById('score').textContent = String(score);
@@ -317,7 +318,7 @@ const isInvalidBlock = value => (value === undefined || value >= 10);
             if(isActiveBlock(tetrisData[i][j])){
                 activeBlocks.push([i, j]);
                 if (isInvalidBlock(tetrisData[i + 1] && tetrisData[i + 1][j])) {
-                    console.log("밑에 블럭이 있음")
+                   // console.log("밑에 블럭이 있음")
                     canGoDown = false
                 }
             }
@@ -351,7 +352,8 @@ const isInvalidBlock = value => (value === undefined || value >= 10);
   generate();
 
   window.addEventListener('keydown',(e)=>{
-      console.log(e);
+  pressedKey = document.getElementById(`${e.keyCode}`)
+  pressedKey.classList.add('pressed')
     switch(e.code){
         case 'ArrowLeft': {
             const nextTopLeft = [currentTopLeft[0], currentTopLeft[1]-1 ];
@@ -362,7 +364,7 @@ const isInvalidBlock = value => (value === undefined || value >= 10);
                 for(j = currentTopLeft[1]; j < currentTopLeft[1] + currentBlockShape.length; j++){
                     if (!tetrisData[i] || !tetrisData[i][j]) continue;
                     if(isActiveBlock(tetrisData[i][j]) && isInvalidBlock(tetrisData[i] && tetrisData[i][j - 1])){
-                            console.log("옆에 블록있음")
+                           // console.log("옆에 블록있음")
                             isMovableLeft = false
                     }
                 }    
@@ -391,7 +393,7 @@ const isInvalidBlock = value => (value === undefined || value >= 10);
                 for(j = currentTopLeft[1]; j < currentTopLeft[1] + currentBlockShape.length; j++){
                     if (!tetrisData[i] || !tetrisData[i][j]) continue;
                     if(isActiveBlock(tetrisData[i][j]) && isInvalidBlock(tetrisData[i] && tetrisData[i][j + 1])){
-                            console.log("옆에 블록있음")
+                           // console.log("옆에 블록있음")
                             isMovableRight = false
                     }
                 }    
@@ -419,6 +421,7 @@ const isInvalidBlock = value => (value === undefined || value >= 10);
   })
 
   window.addEventListener('keyup', (e) => {
+   if(pressedKey) pressedKey.classList.remove('pressed')
     switch (e.code) {
       case 'ArrowUp': { 
         let currentBlockShape = currentBlock.shape[currentBlock.currentShapeIndex];

@@ -1,28 +1,49 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tetris-wrap {
+    padding: 50px 0;
+    position: relative;
+}
+
+.side-wrap  {
+    position: absolute;
+    right: -150px;
+    top: 50px;
+
+}
+
 #tetris,
 #next-table {
     border-collapse: collapse;
 }
 
 #next-table {
-    position: absolute;
-    right: 10px;
-    top: 10px;
+
 }
 
 #tetris td {
-    border: 1px solid black;
+    border: 1px solid rgba(0,0,0,0.6);
     width: 30px;
     height: 30px;
+    box-shadow:inset 1px 0px 0px 5px rgba(0,0,0,0.1);
+
 }
 
 #next-table td {
     border: 1px solid black;
     width: 15px;
     height: 15px;
+    box-shadow:inset 1px 0px 0px 2px rgba(0,0,0,0.3);
 }
 
 td.white {
-    background-color: white;
+    background-color: #ccc;
+    box-shadow:none !important;
+    border: 1px solid rgba(0,0,0,0) !important;
 }
 
 td.red {
@@ -30,29 +51,70 @@ td.red {
 }
 
 td.blue {
-    background-color: blue;
+    background-color: rgb(162, 233, 255);
 }
 
 td.orange {
-    background-color: orange;
+    background-color: rgb(255, 160, 35);
 }
 
 td.green {
-    background-color: green;
+    background-color: rgb(109, 223, 75);
 }
 
 td.navy {
-    background-color: navy;
+    background-color: rgb(9, 87, 255);
 }
 
 td.violet {
-    background-color: violet;
+    background-color: rgb(156, 35, 255);
 }
 
 td.yellow {
-    background-color: yellow;
+    background-color: rgb(255, 230, 0);
 }
 
 td.black {
     background-color: black;
+}
+
+
+.keyboard-wrap {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+}
+
+.keyboard-wrap button {
+    height: 40px;
+    width: 40px;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #ccc;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 5px #999;
+}
+.keyboard-wrap button.space {
+    margin-right: 40px;
+    width: 150px;
+}
+
+.keyboard-wrap .arrow-btns {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.top-btns {
+    margin-bottom: 4px;
+}
+
+button.pressed {
+    background-color: #3e8e41;
+    box-shadow: 0 2px #666;
+    transform: translateY(3px);
 }
