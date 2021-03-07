@@ -1,4 +1,70 @@
 body {
+    margin: 0;
+    padding: 0;
+ }
+
+.modal-wrap {
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.9);
+    position: absolute;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-wrap.gameStart {
+    display: none !important;
+}
+
+
+.modal-wrap h1 {
+    font-size: 10rem;
+    margin-top: -5rem;
+    line-height: 0;
+    color: #fff;
+    text-shadow: #FC0 1px 0 10px;
+}
+
+
+.modal-wrap #score-wrap {
+    display: none;
+    font-size: 2rem;
+    color: #fff;
+
+
+}
+.modal-wrap #score-wrap span {
+    font-size: 3rem;
+    color: rgb(204, 83, 129);
+
+    vertical-align: middle;
+}
+
+.modal-wrap button {
+    height: 80px;
+    width: 100px;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: rgb(255, 199, 78);
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 9px rgb(209, 150, 23);
+    font-size: 1.25rem;
+}
+
+.modal-wrap button:active {
+    background-color: rgb(255, 183, 28);
+    box-shadow: 0 4px rgb(155, 112, 21);
+    transform: translateY(4px);
+}
+
+.game-window {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -21,9 +87,6 @@ body {
     border-collapse: collapse;
 }
 
-#next-table {
-
-}
 
 #tetris td {
     border: 1px solid rgba(0,0,0,0.6);
@@ -38,6 +101,15 @@ body {
     width: 15px;
     height: 15px;
     box-shadow:inset 1px 0px 0px 2px rgba(0,0,0,0.3);
+}
+
+#current-score {
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    color: #777;
+}
+#current-score span {
+    color: black;
 }
 
 td.white {
@@ -114,7 +186,7 @@ td.black {
 }
 
 button.pressed {
-    background-color: #3e8e41;
+    background-color: #ffbb00;
     box-shadow: 0 2px #666;
     transform: translateY(3px);
 }

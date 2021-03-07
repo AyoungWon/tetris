@@ -9,46 +9,52 @@
 
 </head>
 <body>
-    <div class="tetris-wrap">
-        <table id="tetris">
-        </table>
-        <div class="side-wrap">
-            <table id="next-table">
-                <tr>
-                    <td></td><td></td><td></td><td></td>
-                </tr>
-                <tr>
-                    <td></td><td></td><td></td><td></td>
-                </tr>
-                <tr>
-                    <td></td><td></td><td></td><td></td>
-                </tr>
-                <tr>
-                    <td></td><td></td><td></td><td></td>
-                </tr>
+    <div class="game-window">
+        <div class="tetris-wrap">
+            <table id="tetris">
             </table>
-            <div class="btns-wrap">
-                <button id="stop">중단</button>
-                <button id="start">재개</button>
-                <div>점수: <span id="score">0</span></div>
+            <div class="side-wrap">
+                <table id="next-table">
+                    <tr>
+                        <td></td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td></td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td></td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td></td><td></td><td></td><td></td>
+                    </tr>
+                </table>
+
+                    <div id="current-score">SCORE <span id="score">0</span></div>
+
+                
             </div>
             
-        </div>
-        
-        </div>
-        <div class="keyboard-wrap">
-            <button class="space key" id="32"><i class="fas fa-angle-double-down"></i> Space bar</button>
-            <div class="arrow-btns">
-                <div class="top-btns">
-                    <button class="key" id="38"><i class="fas fa-long-arrow-alt-up"></i></button>
-                </div>
-                <div class="bottom-btns">
-                    <button class="key" id="37"><i class="fas fa-long-arrow-alt-left"></i></button>
-                    <button class="key" id="40"><i class="fas fa-long-arrow-alt-down"></i></button>
-                    <button class="key" id="39"><i class="fas fa-long-arrow-alt-right"></i></button>
-                </div>
             </div>
+            <div class="keyboard-wrap">
+                <button class="space key" id="32"><i class="fas fa-angle-double-down"></i> Space bar</button>
+                <div class="arrow-btns">
+                    <div class="top-btns">
+                        <button class="key" id="38"><i class="fas fa-long-arrow-alt-up"></i></button>
+                    </div>
+                    <div class="bottom-btns">
+                        <button class="key" id="37"><i class="fas fa-long-arrow-alt-left"></i></button>
+                        <button class="key" id="40"><i class="fas fa-long-arrow-alt-down"></i></button>
+                        <button class="key" id="39"><i class="fas fa-long-arrow-alt-right"></i></button>
+                    </div>
+                </div>
+        </div>
     </div>
+    <div class="modal-wrap">
+        <h1 class="title">TETRIS</h1>
+        <p id="score-wrap">최종 스코어: <span id="finalScore"></span> 점</p>
+        <button id="modal-btn">START</button>
+    </div>
+
     
 
 
