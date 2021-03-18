@@ -6,7 +6,7 @@ body {
 .modal-wrap {
     width: 100vw;
     height: 100vh;
-    background: rgba(0,0,0,0.9);
+    background: rgba(0,0,0,1);
     position: absolute;
     top: 0;
     display: flex;
@@ -18,7 +18,6 @@ body {
 .modal-wrap.gameStart {
     display: none !important;
 }
-
 
 .modal-wrap h1 {
     font-size: 10rem;
@@ -33,17 +32,16 @@ body {
     display: none;
     font-size: 2rem;
     color: #fff;
-
-
 }
+
 .modal-wrap #score-wrap span {
     font-size: 3rem;
     color: rgb(204, 83, 129);
-
     vertical-align: middle;
 }
 
 .modal-wrap button {
+    margin-bottom: -100px;
     height: 80px;
     width: 100px;
     display: inline-block;
@@ -56,6 +54,7 @@ body {
     border-radius: 50%;
     box-shadow: 0 9px rgb(209, 150, 23);
     font-size: 1.25rem;
+    cursor: pointer;
 }
 
 .modal-wrap button:active {
@@ -66,19 +65,22 @@ body {
 
 .game-window {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: space-evenly;
+    box-sizing: border-box;
 }
 
 .tetris-wrap {
-    padding: 50px 0;
+    padding-top: 30px;
     position: relative;
+    margin-left: 100px;
 }
 
 .side-wrap  {
     position: absolute;
-    right: -150px;
-    top: 50px;
+    right: -125px;
+    top: 30px;
+    text-align: center;
 
 }
 
@@ -150,8 +152,8 @@ td.black {
     background-color: black;
 }
 
-
 .keyboard-wrap {
+    margin-top: auto;
     display: flex;
     align-items: flex-end;
     justify-content: space-around;
@@ -170,6 +172,7 @@ td.black {
     border-radius: 5px;
     box-shadow: 0 5px #999;
 }
+
 .keyboard-wrap button.space {
     margin-right: 40px;
     width: 150px;
